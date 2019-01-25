@@ -77,7 +77,7 @@ namespace Bitmicro {
      * @param handler code to run
      */
     //% blockId=sensor_color_create_event block="on Color Line Follower seeing |%event"
-    //% weight=94 blockGap=8
+    //% weight=99
     //% group="Color Line Follower"
     export function onColor(event: ColorEvent, handler: Action) {
         const eventId = driver.subscribeToEventSource(SensorType.Liner);
@@ -95,7 +95,8 @@ namespace Bitmicro {
      * @param handler code to run
      */
     //% blockId=sensor_liner_create_event block="on Color Line Follower line position|%event"
-    //% weight=95 blockGap=8
+    //% weight=100 
+    //% group="Color Line Follower"
     export function onLinePosition(event: LinerEvent, handler: Action) {
         control.onEvent(eventIdLiner, event, handler);
         if (!initLiner) {
@@ -119,7 +120,8 @@ namespace Bitmicro {
      * Get the color value from the color sensor in R:G:B.
      */
     //% blockId=sensor_get_color_rgb block="Color Line Follower color value"
-    //% weight=94 blockGap=8
+    //% weight=96
+    //% group="Color Line Follower"
     export function getColor(): number {
         let data: Buffer = pins.createBuffer(4);
         driver.i2cSendByte(SensorType.Liner, 0x04);
@@ -131,9 +133,9 @@ namespace Bitmicro {
      * See if the color sensor detected a specific color.
      * @param event of color device
      */
-    //% blockId=sensor_is_color_event_generate block="Color Line Follower is seeing|%event|"
-    //% weight=97 blockGap=8
-    //% advanced=false
+    //% blockId=sensor_is_color_event_generate block="Color Line Follower see color|%event|"
+    //% weight=97
+    //% group="Color Line Follower"
     export function wasColorTriggered(event: ColorEvent): boolean {
         let eventValue = event;
         if (driver.addrBuffer[SensorType.Liner] == 0) onColor(event, () => { });
@@ -145,9 +147,9 @@ namespace Bitmicro {
      * See if the line follower recognized the position of the line underneath.
      * @param event of liner device
      */
-    //% blockId=sensor_is_liner_event_generate block="Color Line Follower line position|%event|"
-    //% weight=96 blockGap=8
-    //% advanced=false
+    //% blockId=sensor_is_liner_event_generate block="Color Line Follower see line at|%event|"
+    //% weight=98
+    //% group="Color Line Follower"
     export function wasLinePositionTriggered(event: LinerEvent): boolean {
         let eventValue = event;
         if (!initLiner) onLinePosition(event, () => { });
@@ -159,9 +161,10 @@ namespace Bitmicro {
      * Set the servo position by degree.
      * @param degree set the degree you want to move.
      */
-    //% blockId=motor_move_servo block="Servo rotates to|%degree|(degree)"
+    //% blockId=motor_move_servo block="Servo rotate to|%degree|(degree)"
     //% degree.min=0 degree.max=180 degree.defl=0
-    //% weight=100 blockGap=8
+    //% weight=100
+    //% group="Servo"
     export function moveServoTo(degree: number) {
         let data: Buffer = pins.createBuffer(2);
         data[0] = 0x02;
@@ -174,9 +177,9 @@ namespace Bitmicro {
      * @param direction the direction that want to set.
      * @param speed the speed that want to run.
      */
-    //% blockId=motor_set_action block="go|%direction|at speed|%speed"
-    //% weight=99 blockGap=8
-
+    //% blockId=motor_set_action block="Chassis go|%direction|at|%speed speed"
+    //% weight=100
+    //% group="Chassis"
     export function setMotormoduleAction(direction: DirectionTpye, speed: SpeedTpye) {
         let data: Buffer = pins.createBuffer(5);
         data[0] = 0x02;
@@ -190,8 +193,9 @@ namespace Bitmicro {
     /**
      * Stop the motormodule.
      */
-    //% blockId=motor_stop_run block="stop"
-    //% weight=98 blockGap=8
+    //% blockId=motor_stop_run block="Chassis stop"
+    //% weight=99
+    //% group="Chassis"
     export function stopMotormodule() {
         setMotormoduleSpeed(0, 0);
     }
@@ -201,11 +205,11 @@ namespace Bitmicro {
      * @param left the left speed you want to run.
      * @param right the right speed you want to run.
      */
-    //% blockId=motor_set_speed_with_duty block="set motor speed left|%left|right|%right"
+    //% blockId=motor_set_speed_with_duty block="Chassis left motor|%left|, right motor |%right"
     //% left.min=-255 left.max=255 left.defl=0
     //% right.min=-255 right.max=255 right.defl=0
-    //% weight=100 blockGap=8
-    //% advanced=false
+    //% weight=98
+    //% group="Chassis"
     export function setMotormoduleSpeed(left: number, right: number) {
         let data: Buffer = pins.createBuffer(5);
         data[0] = 0x01;
@@ -221,9 +225,9 @@ namespace Bitmicro {
      * @param motion the motion that want to set.
      * @param speed the speed that want to run.
      */
-    //% blockId=motor_when_lost_line block="go|%motion|at speed|%speed|when lost the line"
-    //% weight=99 blockGap=8
-    //% advanced=false
+    //% blockId=motor_when_lost_line block="Chassis go|%motion|at speed|%speed|when lost the line"
+    //% weight=97
+    //% group="Chassis"
     export function whenMotormoduleLostLine(motion: MotionTpye, speed: SpeedTpye) {
         if ((motion == MotionTpye.Auto)) {
             if ((sensor.linerEventValue == LinerEvent.Left) || (sensor.linerEventValue == LinerEvent.Leftmost))
