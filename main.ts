@@ -14,6 +14,7 @@ enum GroveJoystickPins {
 enum GroveJoystickKey {
     //% block=None
     None = 0,
+
     //% block=Up123123123
     Up = 1,
     //% block=Down
