@@ -159,7 +159,7 @@ namespace Bitmicro {
      * Set the servo position by degree.
      * @param degree set the degree you want to move.
      */
-    //% blockId=motor_move_servo block="Servo move to|%degree|(degree)"
+    //% blockId=motor_move_servo block="Servo rotates to|%degree|(degree)"
     //% degree.min=0 degree.max=180 degree.defl=0
     //% weight=100 blockGap=8
     export function moveServoTo(degree: number) {
@@ -176,6 +176,7 @@ namespace Bitmicro {
      */
     //% blockId=motor_set_action block="go|%direction|at speed|%speed"
     //% weight=99 blockGap=8
+
     export function setMotormoduleAction(direction: DirectionTpye, speed: SpeedTpye) {
         let data: Buffer = pins.createBuffer(5);
         data[0] = 0x02;
