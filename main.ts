@@ -67,7 +67,8 @@ enum MotionTpye {
 /**
  * Functions to operate G0 module.
  */
-//% weight=48 color=#A26236 icon="\uf018" block="Bit:micro"
+//% weight=48 color=#AA278D icon="\uf018" block="Bit:micro"
+//% groups="['Color Line Follower', 'Chassis', 'Servo']"
 namespace Bitmicro {
 
     /**
@@ -75,8 +76,9 @@ namespace Bitmicro {
      * @param event type of color to detect
      * @param handler code to run
      */
-    //% blockId=sensor_color_create_event block="on color|%event"
+    //% blockId=sensor_color_create_event block="on Color Line Follower seeing |%event"
     //% weight=94 blockGap=8
+    //% group="Color Line Follower"
     export function onColor(event: ColorEvent, handler: Action) {
         const eventId = driver.subscribeToEventSource(SensorType.Liner);
         control.onEvent(eventId, event, handler);
@@ -92,7 +94,7 @@ namespace Bitmicro {
      * @param event type of liner to detect
      * @param handler code to run
      */
-    //% blockId=sensor_liner_create_event block="on line position|%event"
+    //% blockId=sensor_liner_create_event block="on Color Line Follower line position|%event"
     //% weight=95 blockGap=8
     export function onLinePosition(event: LinerEvent, handler: Action) {
         control.onEvent(eventIdLiner, event, handler);
@@ -116,7 +118,7 @@ namespace Bitmicro {
     /**
      * Get the color value from the color sensor in R:G:B.
      */
-    //% blockId=sensor_get_color_rgb block="color"
+    //% blockId=sensor_get_color_rgb block="Color Line Follower color value"
     //% weight=94 blockGap=8
     export function getColor(): number {
         let data: Buffer = pins.createBuffer(4);
@@ -129,9 +131,9 @@ namespace Bitmicro {
      * See if the color sensor detected a specific color.
      * @param event of color device
      */
-    //% blockId=sensor_is_color_event_generate block="color|%event|was triggered"
+    //% blockId=sensor_is_color_event_generate block="Color Line Follower is seeing|%event|"
     //% weight=97 blockGap=8
-    //% advanced=true
+    //% advanced=false
     export function wasColorTriggered(event: ColorEvent): boolean {
         let eventValue = event;
         if (driver.addrBuffer[SensorType.Liner] == 0) onColor(event, () => { });
@@ -143,9 +145,9 @@ namespace Bitmicro {
      * See if the line follower recognized the position of the line underneath.
      * @param event of liner device
      */
-    //% blockId=sensor_is_liner_event_generate block="line position|%event|was triggered"
+    //% blockId=sensor_is_liner_event_generate block="Color Line Follower line position|%event|"
     //% weight=96 blockGap=8
-    //% advanced=true
+    //% advanced=false
     export function wasLinePositionTriggered(event: LinerEvent): boolean {
         let eventValue = event;
         if (!initLiner) onLinePosition(event, () => { });
@@ -157,7 +159,7 @@ namespace Bitmicro {
      * Set the servo position by degree.
      * @param degree set the degree you want to move.
      */
-    //% blockId=motor_move_servo block="servo move to|%degree|(degree)"
+    //% blockId=motor_move_servo block="Servo move to|%degree|(degree)"
     //% degree.min=0 degree.max=180 degree.defl=0
     //% weight=100 blockGap=8
     export function moveServoTo(degree: number) {
@@ -202,7 +204,7 @@ namespace Bitmicro {
     //% left.min=-255 left.max=255 left.defl=0
     //% right.min=-255 right.max=255 right.defl=0
     //% weight=100 blockGap=8
-    //% advanced=true
+    //% advanced=false
     export function setMotormoduleSpeed(left: number, right: number) {
         let data: Buffer = pins.createBuffer(5);
         data[0] = 0x01;
@@ -220,7 +222,7 @@ namespace Bitmicro {
      */
     //% blockId=motor_when_lost_line block="go|%motion|at speed|%speed|when lost the line"
     //% weight=99 blockGap=8
-    //% advanced=true
+    //% advanced=false
     export function whenMotormoduleLostLine(motion: MotionTpye, speed: SpeedTpye) {
         if ((motion == MotionTpye.Auto)) {
             if ((sensor.linerEventValue == LinerEvent.Left) || (sensor.linerEventValue == LinerEvent.Leftmost))
