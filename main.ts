@@ -14,7 +14,8 @@ enum GroveJoystickPins {
 enum GroveJoystickKey {
     //% block=None
     None = 0,
-    //% block=Upupupupupup
+
+    //% block=Up123123123
     Up = 1,
     //% block=Down
     Down = 2,
@@ -55,21 +56,20 @@ namespace grovejoystick {
     export function onJoystick(key: GroveJoystickKey, xpin: GroveJoystickPins, ypin: GroveJoystickPins, handler: () => void) {
         control.onEvent(joystickEventID, key, handler);
         control.inBackground(() => {
-            while(true) {
+            while (true) {
                 const key = joystick.read(xpin, ypin);
                 if (key != lastJoystick) {
-                    lastJoystick = key; 
+                    lastJoystick = key;
                     control.raiseEvent(joystickEventID, lastJoystick);
                 }
                 basic.pause(200);
             }
         })
-        
+
     }
 
 
-    export class GroveJoystick
-    {
+    export class GroveJoystick {
         /**
          * Detect position from Grove - Thumb Joystick
          * @param xpin Microbit Pin connected to Grove - Thumb Joystick x pin
@@ -79,8 +79,8 @@ namespace grovejoystick {
         //% advanced=true
         read(xpin: GroveJoystickPins, ypin: GroveJoystickPins): number {
             let xdata = 0, ydata = 0, result = 0;
-            let x :number = xpin;
-            let y :number = ypin;
+            let x: number = xpin;
+            let y: number = ypin;
 
             xdata = pins.analogReadPin(<AnalogPin>x);
             ydata = pins.analogReadPin(<AnalogPin>y);
@@ -102,7 +102,7 @@ namespace grovejoystick {
                 else if (ydata < 400) result = GroveJoystickKey.Down;
                 else result = GroveJoystickKey.None;
             }
-            
+
             return result;
         }
     }
