@@ -11,12 +11,6 @@ namespace food {
     }
 
     //% block
-    //% group="Veggies"
-    export function bean() {
-
-    }
-
-    //% block
     //% group="Fruits"
     export function apple() {
 
