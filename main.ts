@@ -47,11 +47,11 @@ enum MotorTpye {
 
 enum SpeedTpye {
     //% block=slow
-    Slow = 1,
+    Slow = 120,
     //% block=medium
-    Medium = 2,
+    Medium = 200,
     //% block=fast
-    Fast = 3
+    Fast = 255
 };
 
 enum DirectionTpye {
@@ -194,11 +194,43 @@ namespace Bitmicro {
     //% group="Chassis"
     export function setMotormoduleAction(direction: DirectionTpye, speed: SpeedTpye) {
         let data: Buffer = pins.createBuffer(5);
-        data[0] = 0x02;
-        data[1] = speed;
-        data[2] = direction;
-        data[3] = 0;
-        data[4] = 0;
+        data[0] = 0x01;
+        if(direction == DirectionTpye.Forward){
+            data[1] = speed & 0xff;
+            data[2] = (speed >> 8) & 0xff;
+            data[3] = speed & 0xff;
+            data[4] = (speed >> 8) & 0xff;        
+        }
+        else if(direction == DirectionTpye.Backward){
+            data[1] = (-speed) & 0xff;
+            data[2] = ((-speed) >> 8) & 0xff;
+            data[3] = (-speed) & 0xff;
+            data[4] = ((-speed) >> 8) & 0xff;  
+        }
+        else if(direction == DirectionTpye.Left){
+            data[1] = 0 & 0xff;
+            data[2] = (0 >> 8) & 0xff;
+            data[3] = speed & 0xff;
+            data[4] = (speed >> 8) & 0xff;  
+        }
+        else if(direction == DirectionTpye.Right){
+            data[1] = speed & 0xff;
+            data[2] = (speed >> 8) & 0xff;
+            data[3] = 0 & 0xff;
+            data[4] = (0 >> 8) & 0xff;        
+        }
+        else if(direction == DirectionTpye.Clockwise){
+            data[1] = speed & 0xff;
+            data[2] = (speed >> 8) & 0xff;
+            data[3] = (-speed) & 0xff;
+            data[4] = ((-speed) >> 8) & 0xff;        
+        }
+        else if(direction == DirectionTpye.Anticlockwise){
+            data[1] = (-speed) & 0xff;
+            data[2] = ((-speed) >> 8) & 0xff;
+            data[3] = speed & 0xff;
+            data[4] = (speed >> 8) & 0xff;        
+        }
         driver.i2cSendBytes(MotorTpye.Wheel, data);
     }
 
