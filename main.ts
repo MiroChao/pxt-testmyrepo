@@ -1,3 +1,15 @@
+enum SensorType {
+    //% block=Sound Sensor
+    Sound = 6,
+    //% block=Gesture Sensor
+    Gesture = 0x0c,
+    //% block=Knob
+    Knob = 0x10,
+    //% block=Color Line Follower
+    Liner = 0x27
+
+};
+
 enum ColorEvent {
     //% block=black
     Black = 1,
@@ -79,7 +91,7 @@ namespace Bitmicro {
     //% blockId=sensor_color_create_event block="on Color Line Follower seeing |%event"
     //% weight=99
     //% group="Color Line Follower"
-    export function onColor(event: ColorEvent, handler: Action) {
+    export function onColor(event: ColorEvent, handler: () => void) {
         const eventId = driver.subscribeToEventSource(SensorType.Liner);
         control.onEvent(eventId, event, handler);
     }
@@ -97,7 +109,7 @@ namespace Bitmicro {
     //% blockId=sensor_liner_create_event block="on Color Line Follower line position|%event"
     //% weight=100 
     //% group="Color Line Follower"
-    export function onLinePosition(event: LinerEvent, handler: Action) {
+    export function onLinePosition(event: LinerEvent, handler: () => void) {
         control.onEvent(eventIdLiner, event, handler);
         if (!initLiner) {
             initLiner = true;
