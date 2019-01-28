@@ -231,34 +231,4 @@ namespace Bitmicro {
         data[4] = (right >> 8) & 0xff;
         driver.i2cSendBytes(MotorTpye.Wheel, data);
     }
-
-    /**
-     * Set the actions and the moving speed of motormodule when it lost the line(detected by the line follower).
-     * @param motion the motion that want to set.
-     * @param speed the speed that want to run.
-     */
-    //% blockId=motor_when_lost_line block="Chassis go|%motion|at speed|%speed|when lost the line"
-    //% weight=97
-    //% group="Chassis"
-    export function whenMotormoduleLostLine(motion: MotionTpye, speed: SpeedTpye) {
-        if ((motion == MotionTpye.Auto)) {
-            if ((sensor.linerEventValue == LinerEvent.Left) || (sensor.linerEventValue == LinerEvent.Leftmost))
-                motion = 6; // Anticlockwise
-            else if ((sensor.linerEventValue == LinerEvent.Right) || (sensor.linerEventValue == LinerEvent.Rightmost))
-                motion = 5; // Clockwise
-        }
-        else if ((motion == MotionTpye.Random)) {
-            let random: number = Math.random(1);
-            if (random == 0) motion = 5; // Clockwise
-            else if (random == 1) motion = 6; // Anticlockwise
-        }
-
-        let data: Buffer = pins.createBuffer(5);
-        data[0] = 0x02;
-        data[1] = speed;
-        data[2] = motion;
-        data[3] = 0;
-        data[4] = 0;
-        driver.i2cSendBytes(MotorTpye.Wheel, data);
-    }
 }
