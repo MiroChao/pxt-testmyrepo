@@ -8,7 +8,9 @@
     },
     "files": [
         "README.md",
-        "main.ts"
+        "main.ts",
+        "README.md",
+        "driver.ts"
     ],
     "testFiles": [
         "test.ts"

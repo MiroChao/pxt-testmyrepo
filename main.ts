@@ -67,7 +67,7 @@ enum MotionTpye {
 /**
  * Functions to operate G0 module.
  */
-//% weight=48 color=#AA278D icon="\uf018" block="Bit:micro"
+//% weight=48 color=#AA278D icon="\uf018" block="Bit:microCar"
 //% groups="['Color Line Follower', 'Chassis', 'Servo']"
 namespace Bitmicro {
 
