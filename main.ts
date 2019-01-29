@@ -77,11 +77,11 @@ enum MotionTpye {
 };
 
 /**
- * Functions to operate G0 module.
+ * Extension blocks
  */
-//% weight=48 color=#AA278D icon="\uf018" block="Bit:microCar"
+//% weight=48 color=#0063A0 icon="\uf018" block="BitKit"
 //% groups="['Color Line Follower', 'Chassis', 'Servo']"
-namespace Bitmicro {
+namespace BitKit {
 
     /**
      * Do something when the color sensor detects a specific color.
